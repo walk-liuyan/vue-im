@@ -1,0 +1,51 @@
+$sp-size: 0;
+@while $sp-size <= 30 {
+  .m-#{$sp-size} {
+    margin: 1px * $sp-size !important;
+  }
+  .m-t-#{$sp-size} {
+    margin-top: 1px * $sp-size !important;
+  }
+  .m-b-#{$sp-size} {
+    margin-bottom: 1px * $sp-size !important;
+  }
+  .m-l-#{$sp-size} {
+    margin-left: 1px * $sp-size !important;
+  }
+  .m-r-#{$sp-size} {
+    margin-right: 1px * $sp-size !important;
+  }
+  .p-#{$sp-size} {
+    padding: 1px * $sp-size !important;
+  }
+  .p-t-#{$sp-size} {
+    padding-top: 1px * $sp-size !important;
+  }
+  .p-b-#{$sp-size} {
+    padding-bottom: 1px * $sp-size !important;
+  }
+  .p-l-#{$sp-size} {
+    padding-left: 1px * $sp-size !important;
+  }
+  .p-r-#{$sp-size} {
+    padding-right: 1px * $sp-size !important;
+  }
+  $sp-size: $sp-size +5;
+}
+
+$fz-size: 12;
+@while $fz-size <=34 {
+  .fz-#{$fz-size} {
+    font-size: 1px * $fz-size !important;
+  }
+  $fz-size: $fz-size +2;
+}
+
+$hi-size: 18;
+@while $hi-size <=38 {
+  .h#{$hi-size} {
+    height: 1px * $hi-size !important;
+    line-height: 1px * $hi-size !important;
+  }
+  $hi-size: $hi-size +2;
+}

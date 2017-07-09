@@ -1,0 +1,115 @@
+$m-white: #ffffff;
+$m-black: #232526;
+$m-blue: #2196F3;
+$m-red: #F44336;
+$m-purple: #9C27B0;
+$m-deeppurple: #673AB7;
+$m-lightblue: #03A9F4;
+$m-cyan: #00BCD4;
+$m-teal: #009688;
+$m-green: #4CAF50;
+$m-lightgreen: #8BC34A;
+$m-lime: #CDDC39;
+$m-yellow: #FFEB3B;
+$m-amber: #FFC107;
+$m-orange: #FF9800;
+$m-deeporange: #FF5722;
+$m-gray: #9E9E9E;
+$m-bluegray: #607D8B;
+$m-indigo: #3F51B5;
+$m-pink: #E91E63;
+$m-brown: #795548;
+$m-3: #333;
+$m-6: #666;
+$m-9: #999;
+$m-light: #f5f5f5;
+
+@each $c-name, $color in (c-white, $m-white),
+        (c-black, $m-black),
+        (c-blue, $m-blue),
+        (c-red, $m-red),
+        (c-purple, $m-purple),
+        (c-deeppurple, $m-deeppurple),
+        (c-lightblue, $m-lightblue),
+        (c-cyan, $m-cyan),
+        (c-teal, $m-teal),
+        (c-green, $m-green),
+        (c-lightgreen, $m-lightgreen),
+        (c-lime, $m-lime),
+        (c-yellow, $m-yellow),
+        (c-amber, $m-amber),
+        (c-orange, $m-orange),
+        (c-deeporange, $m-deeporange),
+        (c-gray, $m-gray),
+        (c-bluegray, $m-bluegray),
+        (c-indigo, $m-indigo),
+        (c-pink, $m-pink),
+        (c-brown, $m-brown),
+        (c-g3, $m-3),
+        (c-g6, $m-6),
+        (c-g9, $m-9),
+        (c-light, $m-light), {
+  .#{$c-name} {
+    color: $color;
+  }
+}
+
+@each $bg-name, $color in (bg-white, $m-white),
+        (bg-black, $m-black),
+        (bg-blue, $m-blue),
+        (bg-red, $m-red),
+        (bg-purple, $m-purple),
+        (bg-deeppurple, $m-deeppurple),
+        (bg-lightblue, $m-lightblue),
+        (bg-cyan, $m-cyan),
+        (bg-teal, $m-teal),
+        (bg-green, $m-green),
+        (bg-lightgreen, $m-lightgreen),
+        (bg-lime, $m-lime),
+        (bg-yellow, $m-yellow),
+        (bg-amber, $m-amber),
+        (bg-orange, $m-orange),
+        (bg-deeporange, $m-deeporange),
+        (bg-gray, $m-gray),
+        (bg-bluegray, $m-bluegray),
+        (bg-indigo, $m-indigo),
+        (bg-pink, $m-pink),
+        (bg-brown, $m-brown),
+        (bg-g3, $m-3),
+        (bg-g6, $m-6),
+        (bg-g9, $m-9),
+        (bg-light, $m-light), {
+  .#{$bg-name} {
+    background-color: $color;
+  }
+}
+
+@each $bd-name, $color in (bd-white, $m-white),
+        (bd-black, $m-black),
+        (bd-blue, $m-blue),
+        (bd-red, $m-red),
+        (bd-purple, $m-purple),
+        (bd-deeppurple, $m-deeppurple),
+        (bd-lightblue, $m-lightblue),
+        (bd-cyan, $m-cyan),
+        (bd-teal, $m-teal),
+        (bd-green, $m-green),
+        (bd-lightgreen, $m-lightgreen),
+        (bd-lime, $m-lime),
+        (bd-yellow, $m-yellow),
+        (bd-amber, $m-amber),
+        (bd-orange, $m-orange),
+        (bd-deeporange, $m-deeporange),
+        (bd-gray, $m-gray),
+        (bd-bluegray, $m-bluegray),
+        (bd-indigo, $m-indigo),
+        (bd-pink, $m-pink),
+        (bd-brown, $m-brown),
+        (bd-g3, $m-3),
+        (bd-g6, $m-6),
+        (bd-g9, $m-9),
+        (bd-light, $m-light), {
+  .#{$bd-name} {
+    border: 1px solid $color !important;
+  }
+}

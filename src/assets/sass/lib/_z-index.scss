@@ -1,0 +1,59 @@
+// A map of z layers
+// All z-index values should be set there
+
+$z-layers: (
+        'modal':            5000,
+        'dropdown':         4000,
+        'default':             1,
+        'bottomless-pit': -10000
+);
+
+// A function helper to avoid having to type `map-get($z-layers, ...)`
+// ---
+// @param [string] $component: the layer to use
+// ---
+// @return [number] | [null]
+
+@function z($layer) {
+  @if not map-has-key($z-layers, $layer) {
+    @warn "No z-index found in $z-layers map for `#{$layer}`. Property omitted.";
+  }
+
+  @return map-get($z-layers, $layer);
+}
+
+// Examples & demo
+// ---
+
+// Modal
+.modal {
+  z-index: z("modal");
+}
+
+// ... and its backdrop
+// Computed z-index based on the one from modal
+.modal-backdrop {
+  z-index: z("modal") + 1;
+}
+
+// Dropdown
+.dropdown {
+  z-index: z("dropdown");
+}
+
+// A pseudo-element that has to be on top
+// Computed z-index based on the default one
+.element:after {
+  z-index: z("default") - 2;
+}
+
+// A component that has to be veryyyy low
+.im-falling {
+  z-index: z("bottomless-pit");
+}
+
+// Calling an unknown layer
+// will omit the z-index property
+.error {
+  z-index: z("unknown-z-index");
+}
