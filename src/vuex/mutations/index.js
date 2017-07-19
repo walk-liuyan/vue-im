@@ -151,7 +151,7 @@ const mutations = {
     }
     store.commit('updateMsgByIdClient', msg)
     let tempMsgs = state.msgs[sessionId]
-    let lastMsgIndex = tempMsgs.length  - 1
+    let lastMsgIndex = tempMsgs.length - 1
     if (tempMsgs.length === 0 || msg.time >= tempMsgs[lastMsgIndex].time) {
       tempMsgs.push(msg)
     } else {
@@ -171,7 +171,7 @@ const mutations = {
     if (!tempMsgs || tempMsgs.length === 0) {
       return
     }
-    let lastMsgIndex = tempMsgs.length  - 1
+    let lastMsgIndex = tempMsgs.length - 1
     for (let i = lastMsgIndex; i >= 0; i--) {
       let currMsg = tempMsgs[i]
       if (msg.idClient === currMsg.idClient) {
@@ -187,7 +187,7 @@ const mutations = {
     if (!tempMsgs || tempMsgs.length === 0) {
       return
     }
-    let lastMsgIndex = tempMsgs.length  - 1
+    let lastMsgIndex = tempMsgs.length - 1
     for (let i = lastMsgIndex; i >= 0; i--) {
       let currMsg = tempMsgs[i]
       console.log(idClient, currMsg.idClient, currMsg.text)
@@ -430,7 +430,41 @@ const mutations = {
         }
       })
     }
-  }
+  },
+
+  updateTeams (state, teams,) {
+    console.log('群列表', teams)
+    const nim = state.nim
+    state.teamlist = nim.mergeTeams(state.teamlist, teams);
+  },
+  onInvalidTeams(state, teams) {
+    const nim = state.nim
+    state.teamlist = nim.cutTeams(state.teamlist, teams)
+    state.invalidTeams = nim.mergeTeams(state.invalidTeams, teams)
+  },
+  updateTeamMember(state, teamMember) {
+    console.log('群成员信息更新了', teamMember);
+    onTeamMembers({
+      teamId: teamMember.teamId,
+      members: teamMember
+    });
+  },
+  teamMembers(state, obj){
+    console.log('mutation收到群成员obj', obj)
+    var teamId = obj.teamId
+    var members = obj.members
+    state.teamMembers = state.teamMembers || {}
+    state.teamMembers[teamId] = nim.mergeTeamMembers(state.teamMembers[teamId], members)
+    state.teamMembers[teamId] = nim.cutTeamMembers(state.teamMembers[teamId], members.invalid)
+  },
+  currentTeamMember(state, obj){
+    console.log('mutation->currentTeamMember', obj)
+    state.currentTeamMember = obj
+  },
+  currentTeam(state, obj){
+    console.log('mutation->currentTeam', obj)
+    state.currentTeam = obj
+  },
 }
 
 export default mutations

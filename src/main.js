@@ -1,5 +1,6 @@
 import axios from 'axios'
 import iView from 'iview'
+import 'iview/dist/styles/iview.css'   // 使用 CSS
 import Moment from 'moment'
 import Vue from 'vue'
 import 'vue2-animate/src/vue2-animate.less'
@@ -14,14 +15,11 @@ import Config from './assets/config/arguments.config'
 const _ = require('lodash')
 const load = require('load-script')
 
-load('../static/nim/NIM_Web_SDK_v3.6.0.js', (err, script) => {
+load('../static/nim/NIM_Web_SDK_v4.0.0.js', (err, script) => {
   if (err) {
-    console.log(err)
+    console.log('LOAD NIM ERR:', err)
   } else {
-    console.log(script.src)
-    // Prints 'foo'.js'
-    // use script
-    // note that in IE8 and below loading error wouldn't be reported
+    console.log('LOAD NIM SUCCESS:', script.src)
   }
 })
 

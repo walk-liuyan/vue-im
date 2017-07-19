@@ -5,6 +5,7 @@
       <div class="w-100 " style="height: 55px">
         <span class="fl m-l-10 h60" @click="enterNameCard">{{sessionName}}</span>
         <span class="fr m-r-10 h60" @click="enterHistory">历史消息</span>
+        <span class="fr m-r-10 h60" @click="enterTeamInfo" v-show="scene==='team'">资料</span>
       </div>
       </Col>
     </Row>
@@ -48,7 +49,7 @@
         leftBtnOptions: {
           backText: ' ',
           preventGoBack: true,
-        }
+        },
       }
     },
     watch: {
@@ -80,6 +81,7 @@
     computed: {
       sessionId () {
         let sessionId = this.$route.params.sessionId
+        console.log('sessionId', sessionId)
         return sessionId
       },
       sessionName () {
@@ -97,6 +99,7 @@
         }
       },
       scene () {
+        console.log('scene', util.parseSession(this.sessionId).scene)
         return util.parseSession(this.sessionId).scene
       },
       to () {
@@ -137,6 +140,11 @@
           }
           this.$router.push({path: `/im_web/namecard/${account}`})
         }
+      },
+      enterTeamInfo(){
+        let account = this.sessionId.replace(/^team-/, '')
+        console.log(account)
+        this.$router.push({path: `/im_web/teamInfo/${account}`})
       }
     }
   }

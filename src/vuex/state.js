@@ -36,12 +36,14 @@ export default {
   // 禁言列表
   // mutelist: [],
 
-  // teamlist: [],
+  teamlist: [],
   // 群自身的属性，数据结构如：{tid: {attr: ...}, ...}
-  // teamAttrs: {},
+  teamAttrs: {},
   // 群对象的成员列表，数据结构如：{tid: {members: [...], ...}, ...}
-  // teamMembers: {},
-
+  teamMembers: {},
+  invalidTeams: [],
+  currentTeam: '',
+  currentTeamMember: '',
   // 消息列表
   msgs: {}, // 以sessionId作为key
   msgsMap: {}, // 以idClient作为key，诸如消息撤回等的消息查找

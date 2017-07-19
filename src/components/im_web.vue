@@ -5,15 +5,15 @@
       <Menu v-if="menuOpen" mode="horizontal" theme="light" active-name="1">
         <Menu-item name="1" @click.native="goToLink('/im_web/session')">
           <Icon type="ios-paper"></Icon>
-          最 近 联 系
+          最近联系
         </Menu-item>
         <Menu-item name="2" @click.native="goToLink('/im_web/contacts')">
           <Icon type="ios-people"></Icon>
-          联 系 人
+          联系人
         </Menu-item>
         <Menu-item name="3" @click.native="searchFriend">
           <Icon type="ios-search"></Icon>
-          搜 索 好 友
+          搜索好友
         </Menu-item>
       </Menu>
       <Input v-if="searchOpen"
@@ -22,7 +22,7 @@
              placeholder="请输入好友名称..."
              @keyup.enter.native="enterSearch"
              @keyup.esc.native="enterEsc"
-             style="width:431px"
+             style="width:385px"
              onblur="upperCase()"
       ></Input>
       <div>

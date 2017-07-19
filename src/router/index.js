@@ -12,6 +12,7 @@ import namecard from '../components/im/NameCard'
 import namecardremark from '../components/im/NameCardRemark'
 import general from '../components/im/General'
 import searchuser from '../components/im/SearchUser'
+import teamInfo from '../components/im/teamInfo'
 
 Vue.use(Router)
 
@@ -96,6 +97,15 @@ const router = new Router({
             default: imWeb,
             tabsWrapper: session,
             contentWrapper: namecard,
+          },
+        },
+        {
+          path: '/im_web/teamInfo/:teamId',
+          name: 'teamInfo',
+          components: {
+            default: imWeb,
+            tabsWrapper: session,
+            contentWrapper: teamInfo,
           },
         },
         {

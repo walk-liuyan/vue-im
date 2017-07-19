@@ -19,8 +19,9 @@ import {markSysMsgRead, resetSysMsgs, markCustomSysMsgRead} from './sysMsgs'
 import {sendChatroomMsg, sendChatroomFileMsg, getChatroomHistoryMsgs} from './chatroomMsgs'
 import {initChatroomInfos, getChatroomInfo, getChatroomMembers, clearChatroomMembers} from './chatroomInfos'
 import {allChartData, temporaryData} from './other'
+import {onTeams, onCreateTeam, onTeamMembers, onSyncTeamMembersDone, onUpdateTeamMember, getTeamMembers, getUser, getTeam, createNormalTeam, createAdvancedTeam} from './teams'
 
-function connectNim ({state, commit, dispatch}, obj) {
+function connectNim({state, commit, dispatch}, obj) {
   let {force} = Object.assign({}, obj)
   // 操作为内容页刷新页面，此时无nim实例
   if (!state.nim || force) {
@@ -38,14 +39,14 @@ function connectNim ({state, commit, dispatch}, obj) {
   }
 }
 
-function connectChatroom ({state, commit, dispatch}, obj) {
+function connectChatroom({state, commit, dispatch}, obj) {
   let {chatroomId} = Object.assign({}, obj)
   const nim = state.nim
   if (nim) {
     dispatch('showLoading')
     nim.getChatroomAddress({
       chatroomId,
-      done: function getChatroomAddressDone (error, obj) {
+      done: function getChatroomAddressDone(error, obj) {
         if (error) {
           alert(error.message)
           location.href = '#/room'
@@ -84,7 +85,7 @@ export default {
   },
 
   // 用户触发的登出逻辑
-  logout ({ state, commit }) {
+  logout ({state, commit}) {
     cookie.delCookie('uid')
     cookie.delCookie('sdktoken')
     if (state.nim) {
@@ -135,7 +136,17 @@ export default {
   getChatroomInfo,
   getChatroomMembers,
   clearChatroomMembers,
-
   allChartData,
-  temporaryData
+  temporaryData,
+  /*team*/
+  onTeams,
+  onCreateTeam,
+  onTeamMembers,
+  onSyncTeamMembersDone,
+  onUpdateTeamMember,
+  getTeamMembers,
+  getUser,
+  getTeam,
+  createNormalTeam,
+  createAdvancedTeam
 }
