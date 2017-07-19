@@ -1,12 +1,12 @@
 <template>
-  <div class="g-inherit m-article">
+  <div class="g-inherit m-article" style="overflow-y: scroll">
     <Row class="b-b-1">
       <Col span="8">
       <span class="h60 m-l-10"> </span>
       </Col>
       <Col span="8">
       <Menu mode="horizontal" theme="light" active-name="1">
-        <Menu-item name="1" class="tc" @click.native="changelog(2)">
+        <Menu-item name="1" class="tc" @click.native="changelog(0)">
           <Icon type="ios-paper"></Icon>
           系 统 消 息
         </Menu-item>
@@ -21,26 +21,28 @@
       <span class="h60 fr m-r-10" @click.stop="clearMsgs">清空</span>
       </Col>
     </Row>
-
     <div class="m-article-main p-sysmsgs">
-      <Card v-for="msg in sysMsgs"
-            :key="msg.idServer">
-        <p slot="title">{{msg.showText}}</p>
-        <p>{{msg.showTime}}</p>
-        <p><img class="icon" slot="icon" width="24" :src="msg.avatar"></p>
-        <p>卡片内容</p>
-      </Card>
+      <div class="u-list" v-if="sysType===0">
+        <Card style="width: 300px;float: left;margin:20px 20px 0 15px"
+              class="u-list-item"
+              v-for="msg in sysMsgs"
+              key="msg.idServer">
+          <p slot="title">系统信息</p>
+          <p>
+            <img class="icon" slot="icon" width="24" :src="msg.avatar">
+          </p>
+          <p> {{msg.showText}}{{msg.showTime}}</p>
 
-      <Card
-        v-if="sysType===1"
-        v-for="(msg, index) in customSysMsgs"
-        :key="msg.idServer">
-        <p slot="title">{{msg.showText}}</p>
-        <p>{{msg.showTime}}</p>
-        <p><img class="icon" slot="icon" width="24" :src="msg.avatar"></p>
-        <p>卡片内容</p>
-      </Card>
-
+        </Card>
+      </div>
+      <div class="u-list" v-if="sysType===1">
+        <p
+          v-for="(msg, index) in customSysMsgs"
+          class="u-list-item"
+          :key="msg.idServer">
+          <img class="icon" slot="icon" width="24" :src="msg.avatar">
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -61,14 +63,25 @@
     },
     data () {
       return {
-        sysType: 0 // 系统消息 0, 自定义消息 1,
+        sysType: 0,// 系统消息 0, 自定义消息 1,
+        sysMsgsData: '',
       }
+    },
+    watch: {
+      $route(to, from) {
+        console.log('watch', to, from)
+      },
+      sysMsgs(val) {
+        console.log('watch-sysMsgs', val)
+      },
     },
     computed: {
       userInfos () {
         return this.$store.state.userInfos
       },
       sysMsgs () {
+        console.log('this.$store.state.sysMsgs', this.$store.state.sysMsgs)
+        this.sysMsgsData = this.$store.state.sysMsgs
         let sysMsgs = this.$store.state.sysMsgs.filter(msg => {
           switch (msg.type) {
             case 'addFriend':
@@ -79,12 +92,17 @@
               msg.showText = `${msg.from} 将您从好友中删除`
               msg.avatar = this.userInfos[msg.from].avatar
               return false
+            case 'teamInvite':
+              msg.showText = `${msg.from } 邀请你入群~`
+              msg.avatar = msg.attach.team.avatar
+              return true
           }
           return false
         })
         return sysMsgs
       },
       customSysMsgs () {
+        console.log('this.$store.state.customSysMsgs', this.$store.state.customSysMsgs)
         let customSysMsgs = this.$store.state.customSysMsgs.filter(msg => {
           if (msg.scene === 'p2p') {
             let content = JSON.parse(msg.content)
@@ -96,17 +114,28 @@
         })
         return customSysMsgs
       }
-    },
+    }
+    ,
     methods: {
-      changelog(val){
+      changelog(val)
+      {
         this.sysType = val
         console.log(this.sysType)
-      },
-      clearMsgs () {
+        console.log('this.$store.state.sysMsgs', this.$store.state.sysMsgs)
+        this.sysMsgsData = this.$store.state.sysMsgs
+
+      }
+      ,
+      clearMsgs()
+      {
         this.$store.dispatch('resetSysMsgs', {
           type: this.sysType
         })
       }
+    }
+    ,
+    created()
+    {
     }
   }
 </script>

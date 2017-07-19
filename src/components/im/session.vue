@@ -21,12 +21,11 @@
               <img class="icon" slot="icon" width="24" :src="session.avatar">
               <span>{{session.name}}-{{session.lastMsgShow}}</span>
               <span v-show="session.unread > 0" class="u-unread">{{session.unread}}</span>
-           <!--   <span
+            <!-- <span
                 class="u-tag-del"
                 :class="{active: delSessionId===session.id}"
                 @click="deleteSession"
               >
-
               </span>-->
             </div>
           </Menu-item>

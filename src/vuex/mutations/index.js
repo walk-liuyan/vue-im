@@ -435,7 +435,12 @@ const mutations = {
   updateTeams (state, teams,) {
     console.log('群列表', teams)
     const nim = state.nim
-    state.teamlist = nim.mergeTeams(state.teamlist, teams);
+    state.teamlist = nim.mergeTeams(state.teamlist, teams)
+  },
+  updateTeam (state, team) {
+    console.log('你创建了一个群', team)
+    const nim = state.nim
+    state.teamlist = nim.mergeTeams(state.teamlist, team)
   },
   onInvalidTeams(state, teams) {
     const nim = state.nim
@@ -464,6 +469,10 @@ const mutations = {
   currentTeam(state, obj){
     console.log('mutation->currentTeam', obj)
     state.currentTeam = obj
+  },
+  createTeam(state, obj){
+    console.log('mutation->createTeam', obj)
+    state.createTeam = obj
   },
 }
 

@@ -11,20 +11,28 @@
       </Col>
     </Row>
     <div class="m-list">
-      <Card  class="m-t-20" style="width: 420px;margin: auto">
+      <Card class="m-t-20" style="width: 420px;margin: auto">
         <img class="icon" slot="icon" width="20" :src="userInfo.avatar">
         <p class="fz-18 m-10">昵称：{{userInfo.nick}}</p>
         <p class="fz-18 m-10">生日：{{userInfo.birth}}</p>
         <p class="fz-18 m-10">手机：{{userInfo.tel}}</p>
         <p class="fz-18 m-10">邮箱：{{userInfo.email}}</p>
         <p class="fz-18 m-10">签名：{{userInfo.sign}}</p>
-        <p class="fz-18 m-10"> 备注：<Input :required="false" :max="16" v-model="alias" placeholder="请输入备注名..." style="width: 300px" @keyup.enter.native="setAlias"></Input></p>
+        <p class="fz-18 m-10"> 备注：<Input :required="false" :max="16" v-model="alias" placeholder="请输入备注名..."
+                                         style="width: 300px" @keyup.enter.native="setAlias"></Input></p>
         <p class="fz-18 m-10">黑名单:
           <i-switch class="u-switch" v-model="isBlack" @on-change="changeBlack"></i-switch>
         </p>
       </Card>
+      <Modal
+        v-model="modal1"
+        title="提示框"
+        @on-ok="ok"
+        @on-cancel="cancel">
+        <p>删除好友后，将同时解除双方的好友关系</p>
+      </Modal>
       <div class="tc w-100 m-10">
-       <!-- <Button v-show="isFriend" type="info" @click.native="enterRemarkLink">备注名</Button>-->
+        <!-- <Button v-show="isFriend" type="info" @click.native="enterRemarkLink">备注名</Button>-->
         <Button type="info" @click.native="enterChat">聊天</Button>
         <Button type="info" @click.native="enterHistory" v-show="isFriend">历史记录</Button>
         <Button v-show="isFriend" type="info" @click.native="deleteFriend">删除好友</Button>
@@ -43,7 +51,8 @@
     data () {
       return {
         alias: '',
-        isBlack: false
+        isBlack: false,
+        modal1: false,
       }
     },
     computed: {
@@ -52,15 +61,15 @@
       },
       userInfo () {
         let info = this.$store.state.userInfos[this.account] || {}
-/*
-        info.alias = util.getFriendAlias(info)
-*/
+        /*
+         info.alias = util.getFriendAlias(info)
+         */
         this.alias = util.getFriendAlias(info)
         this.isBlack = info.isBlack
         return info
       },
       /*
-      * account () {
+       * account () {
        return this.$route.params.userId
        },
        userInfo () {
@@ -112,21 +121,23 @@
       },
       enterHistory () {
         this.$router.push({path: `/im_web/chathistory/p2p-${this.account}`})
-/*
-        location.href = `/im_web/chatHistory/p2p-${this.account}`
-*/
+        /*
+         location.href = `/im_web/chatHistory/p2p-${this.account}`
+         */
       },
       addFriend () {
         this.$store.dispatch('addFriend', this.account)
       },
       deleteFriend () {
+        this.modal1 = true
+      },
+      ok () {
+        this.$Message.info('删除成功！');
         let that = this
-        this.$vux.confirm.show({
-          title: '删除好友后，将同时解除双方的好友关系',
-          onConfirm () {
-            that.$store.dispatch('deleteFriend', that.account)
-          }
-        })
+        that.$store.dispatch('deleteFriend', that.account)
+      },
+      cancel () {
+        this.$Message.info('点击了取消');
       }
     }
   }

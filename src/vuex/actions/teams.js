@@ -8,12 +8,8 @@ export function onTeams(teams) {
   store.commit('onInvalidTeams', teams.invalid)
 }
 
-export function onCreateTeam({state, commit}, team) {
-  console.log('你创建了一个群', team)
-/*
-  const nim = state.nim
-*/
-  state.teamlist = nim.mergeTeams(state.teamlist, team)
+export function onCreateTeam(team, owner) {
+  store.commit('updateTeam', team)
   onTeamMembers({
     teamId: team.teamId,
     members: owner
@@ -84,33 +80,33 @@ function getTeamDone(error, obj) {
 }
 
 // 创建普通群
-export function createNormalTeam({state, commit}, accounts) {
+export function createNormalTeam({state, commit}, obj) {
   const nim = state.nim
   nim.createTeam({
     type: 'normal',
-    name: '讨论组',
+    name: obj.teamName,
     avatar: 'avatar',
-    accounts: accounts,
+    accounts: obj.accounts,
     ps: '我建了一个普通群',
     done: createTeamDone
   })
 }
 
 // 创建高级群
-export function createAdvancedTeam({state, commit}, accounts) {
+export function createAdvancedTeam({state, commit}, obj) {
   const nim = state.nim
   nim.createTeam({
     type: 'advanced',
-    name: '高级群',
+    name: obj.teamName,
     avatar: 'avatar',
-    accounts: accounts,
+    accounts: obj.accounts,
     intro: '群简介',
     announcement: '群公告',
-    // joinMode: 'needVerify',
-    // beInviteMode: 'needVerify',
-    // inviteMode: 'manager',
-    // updateTeamMode: 'manager',
-    // updateCustomMode: 'manager',
+    /*joinMode: 'needVerify',
+    beInviteMode: 'needVerify',
+    inviteMode: 'manager',
+    updateTeamMode: 'manager',
+    updateCustomMode: 'manager',*/
     ps: '我建了一个高级群',
     done: createTeamDone
   });
@@ -118,7 +114,9 @@ export function createAdvancedTeam({state, commit}, accounts) {
 
 function createTeamDone(error, obj) {
   console.log('创建' + obj.team.type + '群' + (!error ? '成功' : '失败'), error, obj);
+  store.commit('createTeam', obj.team)
   if (!error) {
     onCreateTeam(obj.team, obj.owner);
   }
+
 }

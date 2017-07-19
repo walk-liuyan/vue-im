@@ -8,6 +8,7 @@
         title="普通的Modal对话框标题"
         @on-ok="ok"
         @on-cancel="cancel">
+        <Input v-model="teamName" placeholder="请输入..." style="width: 300px"></Input>
         <Transfer
           :titles="TransferTitles"
           :data="initData"
@@ -16,16 +17,14 @@
           :filter-method="filterMethod"
           :render-format="render"
           :list-style="listStyle"
-          @on-change="handleChange"></Transfer>
-
+          @on-change="handleChange">
+        </Transfer>
       </Modal>
-
-
       <Menu theme="light" active-name="1" width="100%">
-          <div>
-            <Button @click="createNormalTeam">创建讨论组</Button>
-            <Button @click="createAdvancedTeam">创建高级群</Button>
-          </div>
+        <div>
+          <Button @click="createNormalTeam">创建讨论组</Button>
+          <Button @click="createAdvancedTeam">创建高级群</Button>
+        </div>
         <Menu-group title="讨论组">
           <Menu-item v-for="(team,index) in normalList"
                      :key="team.teamId"
@@ -93,6 +92,7 @@
         },
         TransferTitles: ['初始好友', '新添好友'],
         createType: '',
+        teamName: '',
       }
     },
     watch: {
@@ -145,10 +145,12 @@
           return true
         })
       },
-      userInfos()
-      {
+      userInfos(){
         return this.$store.state.userInfos
-      }
+      },
+      createTeam(){
+        return this.$store.state.createTeam
+      },
     },
     methods: {
       enterChat(path) {
@@ -186,9 +188,22 @@
       ok () {
         console.log(this.createType)
         if (this.createType === 'Normal') {
-          this.$store.dispatch('createNormalTeam', this.targetKeys)
+          const obj = {
+            accounts: this.targetKeys,
+            teamName: this.teamName
+          }
+          console.log('this.teamName', this.teamName)
+          this.$store.dispatch('createNormalTeam', obj)
+          /*
+           需要实现跳转到当前创建的群
+           */
         } else if (this.createType === 'Advanced') {
-          this.$store.dispatch('createAdvancedTeam', this.targetKeys)
+          console.log('this.teamName', this.teamName)
+          const obj = {
+            accounts: this.targetKeys,
+            teamName: this.teamName
+          }
+          this.$store.dispatch('createAdvancedTeam', obj)
         } else {
           this.$Message.info('has a error');
         }
