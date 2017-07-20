@@ -59,9 +59,11 @@ export function getUser({state, commit}, account) {
     done: getUserDone
   });
 }
-function getUserDone(error, users) {
-  console.log('获取用户名片数组' + (!error ? '成功' : '失败'), error, users);
-}
+function getUserDone(error, user) {
+  console.log('获取用户名片' + (!error?'成功':'失败'), error, user);
+  if (!error && user) {
+    store.commit('Users', user)
+  }}
 
 
 export function getTeam({state, commit}, teamId) {
@@ -118,5 +120,47 @@ function createTeamDone(error, obj) {
   if (!error) {
     onCreateTeam(obj.team, obj.owner);
   }
+}
 
+export function acceptTeamInvite({state, commit}, obj) {
+  const nim = state.nim
+  nim.acceptTeamInvite({
+    idServer: obj.idServer,
+    teamId: obj.teamId,
+    from: obj.from,
+    done: acceptTeamInviteDone
+  })
+}
+
+function acceptTeamInviteDone(error, obj) {
+  console.log('接受入群邀请' + (!error?'成功':'失败'), error, obj);
+}
+
+export function rejectTeamInvite({state, commit}, obj) {
+  const nim = state.nim
+  nim.rejectTeamInvite({
+    idServer: obj.idServer,
+    teamId: obj.teamId,
+    from: obj.from,
+    ps: '就不',
+    done: rejectTeamInviteDone
+  });
+}
+
+function rejectTeamInviteDone(error, obj) {
+  console.log('拒绝入群邀请' + (!error?'成功':'失败'), error, obj);
+}
+
+export function addTeamMembers({state, commit}, obj) {
+  const nim = state.nim
+  nim.addTeamMembers({
+    teamId: '123',
+    accounts: ['a3', 'a4'],
+    ps: '加入我们的群吧',
+    done: addTeamMembersDone
+  });
+}
+
+function addTeamMembersDone(error, obj) {
+  console.log('入群邀请发送' + (!error?'成功':'失败'), error, obj);
 }

@@ -28,7 +28,7 @@ export default {
   userInfos: {},
   // 用户订阅的事件同步, 数据结构如：{cid: {typeid: {...}, ...}, ...}
   userSubscribes: {},
-
+  users: '',
   // 好友列表
   friendslist: [],
   // 黑名单列表

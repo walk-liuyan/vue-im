@@ -1,11 +1,16 @@
 <template>
   <div>
     <p>
-      1\无法获取头像，由于群人数5人，而获取的userInfos只有2人。获取avatar出错。
+      待完成：
+      1、无法获取头像，由于群人数5人，而获取的userInfos只有2人。获取avatar出错。
       尝试getUser，里面没有头像。
+      2、踢人
+      3、拉人
     </p>
+    <b>当前team的currentTeamMember:</b>
     <div v-for="item in currentTeamMember">{{item.account}}</div>
     <b>当前team信息currentTeam:</b>{{currentTeam}}
+    <Button @click="addTeamMembers">拉人</Button>
   </div>
 </template>
 <script type="text/babel">
@@ -36,12 +41,23 @@
         return this.$store.state.currentTeam
       },
     },
-    methods: {},
+    methods: {
+      addTeamMembers() {
+       /* const obj = {
+          idServer: idServer,
+          from: from,
+          teamId: teamId,
+        }
+        console.log(obj)
+        this.$store.dispatch('getTeamMembers', obj)*/
+      },
+    },
     created() {
       this.teamId = this.$route.params.teamId
       this.$store.dispatch('getTeamMembers', this.teamId)
       console.log('created-currentTeamMember', this.currentTeamMember)
       this.$store.dispatch('getTeam', this.teamId)
+      this.$store.dispatch('getUser', ['kero'])
     },
   }
 </script>

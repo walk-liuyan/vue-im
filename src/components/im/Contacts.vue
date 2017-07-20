@@ -2,24 +2,27 @@
   <div style="height: 640px;overflow-y: scroll;">
     <Row>
       <Col>
-      <Modal
-        :width="980"
-        v-model="modal"
-        title="普通的Modal对话框标题"
-        @on-ok="ok"
-        @on-cancel="cancel">
-        <Input v-model="teamName" placeholder="请输入..." style="width: 300px"></Input>
-        <Transfer
-          :titles="TransferTitles"
-          :data="initData"
-          :target-keys="targetKeys"
-          filterable
-          :filter-method="filterMethod"
-          :render-format="render"
-          :list-style="listStyle"
-          @on-change="handleChange">
-        </Transfer>
-      </Modal>
+      <div v-show="modal">
+        <Modal
+          :width="980"
+          v-model="modal"
+          title="普通的Modal对话框标题"
+          @on-ok="ok"
+          @on-cancel="cancel">
+          <Input v-model="teamName" placeholder="请输入..." style="width: 300px"></Input>
+          <Transfer
+            :titles="TransferTitles"
+            :data="initData"
+            :target-keys="targetKeys"
+            :render-format="render"
+            :list-style="listStyle"
+            filterable
+            :filter-method="filterMethod"
+            @on-change="handleChange">
+          </Transfer>
+        </Modal>
+      </div>
+
       <Menu theme="light" active-name="1" width="100%">
         <div>
           <Button @click="createNormalTeam">创建讨论组</Button>
@@ -67,7 +70,6 @@
             </div>
           </Menu-item>
         </Menu-group>
-
       </Menu>
       </Col>
     </Row>
@@ -83,7 +85,7 @@
         advancedList: [],
         normalList: [],
         modal: false,
-        initData: this.getMockData(),
+        initData: '',
         targetKeys: this.getTargetKeys(),
         friendslistArr: [],
         listStyle: {
@@ -101,6 +103,9 @@
       },
       teamlist(val) {
         console.log('watch-teamlist', val)
+      },
+      friendslist(val) {
+        console.log('watch-friendslist', val)
       },
     },
     computed: {
@@ -157,7 +162,7 @@
         console.log(path)
         this.$router.push({path: `${path}`})
       },
-      getMockData () {
+      /*getMockData () {
         const friendslistData = this.$store.state.friendslist
         console.log('getMockData=>friendslistData', friendslistData)
         let mockData = [];
@@ -167,10 +172,11 @@
             label: item.alias,
           })
         })
-        return mockData;
-      },
+         return mockData;
+      },*/
       getTargetKeys () {
-        return this.getMockData().map(item => item.key);
+        const initData =this.initData
+        return _.map(initData,item => item.key)
       },
       render (item) {
         return item.label + ' - ' + item.key;
@@ -225,6 +231,16 @@
       },
     },
     created(){
+      const friendslistData = this.$store.state.friendslist
+      console.log('getMockData=>friendslistData', friendslistData)
+      let mockData = [];
+      _(friendslistData).forEach((item) => {
+        mockData.push({
+          key: item.account,
+          label: item.alias,
+        })
+      })
+      this.initData = mockData
     }
   }
 

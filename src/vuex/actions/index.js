@@ -19,7 +19,7 @@ import {markSysMsgRead, resetSysMsgs, markCustomSysMsgRead} from './sysMsgs'
 import {sendChatroomMsg, sendChatroomFileMsg, getChatroomHistoryMsgs} from './chatroomMsgs'
 import {initChatroomInfos, getChatroomInfo, getChatroomMembers, clearChatroomMembers} from './chatroomInfos'
 import {allChartData, temporaryData} from './other'
-import {onTeams, onCreateTeam, onTeamMembers, onSyncTeamMembersDone, onUpdateTeamMember, getTeamMembers, getUser, getTeam, createNormalTeam, createAdvancedTeam} from './teams'
+import {onTeams, onCreateTeam, onTeamMembers, onSyncTeamMembersDone, onUpdateTeamMember, getTeamMembers, getUser, getTeam, createNormalTeam, createAdvancedTeam, acceptTeamInvite, rejectTeamInvite} from './teams'
 
 function connectNim({state, commit, dispatch}, obj) {
   let {force} = Object.assign({}, obj)
@@ -148,5 +148,7 @@ export default {
   getUser,
   getTeam,
   createNormalTeam,
-  createAdvancedTeam
+  createAdvancedTeam,
+  acceptTeamInvite,
+  rejectTeamInvite,
 }

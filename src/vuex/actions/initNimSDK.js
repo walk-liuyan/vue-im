@@ -13,7 +13,7 @@ import {onMyInfo, onUserInfo} from './userInfo'
 import {onSessions, onUpdateSession} from './session'
 import {onRoamingMsgs, onOfflineMsgs, onMsg} from './msgs'
 import {onSysMsgs, onSysMsg, onSysMsgUnread, onCustomSysMsgs} from './sysMsgs'
-import {onTeams, onCreateTeam, onTeamMembers, onSyncTeamMembersDone, onUpdateTeamMember, getTeamMembers,getUser,getTeam,createNormalTeam, createAdvancedTeam} from './teams'
+import {onTeams, onCreateTeam, onTeamMembers, onSyncTeamMembersDone, onUpdateTeamMember, getTeamMembers,getUser,getTeam,createNormalTeam, createAdvancedTeam, acceptTeamInvite,rejectTeamInvite} from './teams'
 
 // 重新初始化 NIM SDK
 export function initNimSDK({state, commit, dispatch}, loginInfo) {
@@ -91,6 +91,8 @@ export function initNimSDK({state, commit, dispatch}, loginInfo) {
     getTeam: getTeam,
     createNormalTeam: createNormalTeam,
     createAdvancedTeam: createAdvancedTeam,
+    acceptTeamInvite: acceptTeamInvite,
+    rejectTeamInvite: rejectTeamInvite,
     // // 会话
     onsessions: onSessions,
     onupdatesession: onUpdateSession,

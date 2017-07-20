@@ -31,8 +31,15 @@
           <p>
             <img class="icon" slot="icon" width="24" :src="msg.avatar">
           </p>
-          <p> {{msg.showText}}{{msg.showTime}}</p>
-
+          <p> {{msg.showText}}
+            <span>{{msg.showTime}}</span>
+          </p>
+          <div v-show="agreeBox">
+            <p v-show="msg.agree" style="float: right">
+              <a @click="acceptTeamInvite(msg.idServer,msg.from,msg.teamId)">同意</a>
+              <a @click="rejectTeamInvite(msg.idServer,msg.from,msg.teamId)">拒绝</a>
+            </p>
+          </div>
         </Card>
       </div>
       <div class="u-list" v-if="sysType===1">
@@ -48,7 +55,6 @@
 </template>
 
 <script>
-
   export default {
     /*eslint-disable*/
 
@@ -87,14 +93,18 @@
             case 'addFriend':
               msg.showText = `${msg.friend.alias || msg.friend.account} 添加您为好友~`
               msg.avatar = this.userInfos[msg.from].avatar
+              msg.agree = false
               return true
             case 'deleteFriend':
               msg.showText = `${msg.from} 将您从好友中删除`
               msg.avatar = this.userInfos[msg.from].avatar
+              msg.agree = false
               return false
             case 'teamInvite':
               msg.showText = `${msg.from } 邀请你入群~`
               msg.avatar = msg.attach.team.avatar
+              msg.teamId = msg.attach.team.teamId
+              msg.agree = true
               return true
           }
           return false
@@ -117,21 +127,36 @@
     }
     ,
     methods: {
-      changelog(val)
-      {
+      changelog(val){
         this.sysType = val
         console.log(this.sysType)
         console.log('this.$store.state.sysMsgs', this.$store.state.sysMsgs)
         this.sysMsgsData = this.$store.state.sysMsgs
 
-      }
-      ,
-      clearMsgs()
-      {
+      },
+      clearMsgs(){
         this.$store.dispatch('resetSysMsgs', {
           type: this.sysType
         })
-      }
+      },
+      acceptTeamInvite(idServer, from, teamId){
+        const obj={
+          idServer:idServer,
+          from:from,
+          teamId:teamId
+        }
+        console.log(obj)
+        this.$store.dispatch('acceptTeamInvite', obj)
+      },
+      rejectTeamInvite(idServer, from, teamId){
+        const obj={
+          idServer:idServer,
+          from:from,
+          teamId:teamId
+        }
+        console.log(obj)
+        this.$store.dispatch('rejectTeamInvite', obj)
+      },
     }
     ,
     created()

@@ -474,6 +474,10 @@ const mutations = {
     console.log('mutation->createTeam', obj)
     state.createTeam = obj
   },
+  Users(state, users) {
+    console.log('收到用户名片列表', users);
+    state.users = nim.mergeUsers(state.users, users);
+  }
 }
 
 export default mutations
